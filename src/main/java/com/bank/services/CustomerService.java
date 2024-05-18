@@ -46,4 +46,24 @@ public class CustomerService {
 
         return customerDTO;
     }
+
+    public CustomerDTO addNewCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPhone(customerDTO.getPhone());
+        customer.setAddress(customerDTO.getAddress());
+
+        if(customer.getFirstName() == null || customer.getLastName() == null || customer.getEmail() == null || customer.getPhone() == null || customer.getAddress() == null){
+            throw new IllegalArgumentException("All fields are required");
+        }
+        if(customerRepository.getCustomerByEmail(customer.getEmail()) != null){
+            throw new IllegalArgumentException("Customer with same email already exists");
+        }
+
+
+        customerRepository.save(customer);
+        return customerDTO;
+    }
 }

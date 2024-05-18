@@ -3,13 +3,12 @@ package com.bank.services;
 
 import com.bank.exceptions.CustomerNotFoundException;
 import com.bank.repositories.CustomerRepository;
+import com.bank.dtos.CustomerDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -34,5 +33,17 @@ public class CustomerServiceTest {
             customerService.getCustomerByID("17a9ff54-13a5-11ef-a863-6ae025190f01");
         });
     }
+
+    @Test
+    void testCreateCustomerWithMissingFields(){
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setFirstName("John");
+        customerDTO.setLastName("Doe");
+        assertThrows(IllegalArgumentException.class, ()->{
+            customerService.addNewCustomer(customerDTO);
+        });
+    }
+
+
 
 }
