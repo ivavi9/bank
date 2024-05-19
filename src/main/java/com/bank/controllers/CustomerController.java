@@ -41,5 +41,11 @@ public class CustomerController {
         return new ResponseEntity<>(newCustomerDTO, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CustomerDTO> deleteCustomer(@PathVariable String id) throws CustomerNotFoundException {
+        CustomerDTO customerDTO = customerService.deleteCustomer(id);
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+
 
 }

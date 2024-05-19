@@ -66,4 +66,22 @@ public class CustomerService {
         customerRepository.save(customer);
         return customerDTO;
     }
+
+    public CustomerDTO deleteCustomer(String id) throws CustomerNotFoundException {
+        Customer customer = customerRepository.findById(UUID.fromString(id)).orElseThrow(()->new CustomerNotFoundException("Customer not found"+id));
+
+        if(customer.isDeleted()){
+            throw new IllegalArgumentException("Customer already deleted"+id);
+        }
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setFirstName(customer.getFirstName());
+        customerDTO.setLastName(customer.getLastName());
+        customerDTO.setEmail(customer.getEmail());
+        customerDTO.setPhone(customer.getPhone());
+        customerDTO.setAddress(customer.getAddress());
+        customer.setDeleted(true);
+        customerRepository.save(customer);
+        return customerDTO;
+    }
 }
